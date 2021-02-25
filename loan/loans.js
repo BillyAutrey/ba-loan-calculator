@@ -29,7 +29,7 @@ entity.createLoan = function (createLoanDetails, state, context) {
         loan: addedLoan
     });
     console.log("created loan " + loan.loanId);
-    ctx.emit(loanCreated);
+    context.emit(loanCreated);
     return loanCreated;
 };
 
