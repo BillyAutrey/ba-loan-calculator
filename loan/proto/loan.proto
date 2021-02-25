@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+import "cloudstate/entity_key.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+package com.lightbend.loancalc;
+
+// state records
+message Loan {
+    string loan_id = 1;
+    int32 principal = 2;
+    float rate = 3;
+    int32 months = 4;
+    int32 monthly_addl = 5;
+    //repeated LumpSum lump_sums = 6;
+}
+
+message LumpSum {
+    int32 amount = 1;
+    int32 month_paid = 2;
+}
+
+// Commands
+
+message CreateLoanDetails {
+    string user_id = 1 [(.cloudstate.entity_key) = true];
+    Loan loan = 2;
+}
+
+message LoanCreated {
+    string loan_id = 1;
+}
+
+message GetLoanDetails {
+    string user_id = 1 [(.cloudstate.entity_key) = true];
+    string loan_id = 2;
+}
+
+
+// state
+message LoanState {
+    repeated Loan loans = 1;
+}
+
+service LoanService {
+    rpc CreateLoan(CreateLoanDetails) returns (LoanCreated) {};
+    rpc GetLoan(GetLoanDetails) returns (Loan) {};
+}
