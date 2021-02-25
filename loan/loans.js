@@ -1,11 +1,11 @@
 const EventSourced = require('cloudstate').EventSourced;
 
 const entity = new EventSourced(
-    ['proto/loan.proto'],
+    ['loan/proto/loan.proto'],
     "com.lightbend.loancalc.LoanService",
     {}
 );
-const package = 'com.lightbend.loancalc';
+const package = 'com.lightbend.loancalc.';
 const LoanState = entity.lookupType(package + "LoanState");
 const Loan = entity.lookupType(package + "Loan");
 const LumpSum = entity.lookupType(package + "LumpSum");
@@ -24,7 +24,7 @@ entity.createLoan = function (loandetails, state, context) {
         monthly_addl: loan.monthly_addl
     });
     //ctx.emit(addedLoan);
-    return { addedLoan.loan_id };
+    return { loan_id: addedLoan.loan_id };
 };
 
 entity.getLoan = function (command, state, context) {

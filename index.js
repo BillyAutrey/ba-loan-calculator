@@ -1,1 +1,1 @@
-require('./loan/loans.js').start();
+require('./loan/loans').start();
