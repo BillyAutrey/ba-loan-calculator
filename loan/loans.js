@@ -15,25 +15,30 @@ entity.setInitial((userid) => LoanState.create({ loans: []}));
 
 // command handlers
 entity.createLoan = function (createLoanDetails, state, context) {
-    console.log(createLoanDetails); // Note, this will reveal that the details come in as loanId and monthlyAddl
     const loan = createLoanDetails.loan;
     const addedLoan = Loan.create( {
-        loanId: loan.loanId, // loan.loan_id does NOT work here.
+        loanId: loan.loanId,
         principal: loan.principal,
         rate: loan.rate,
         months: loan.months,
         monthlyAddl: loan.monthlyAddl
     });
+
     const loanCreated = LoanCreated.create( {
-        loanId: loan.loanId
+        loanId: loan.loanId,
+        loan: addedLoan
     });
-    console.log(loanCreated);
-    //ctx.emit(addedLoan);
+    console.log("created loan " + loan.loanId);
+    ctx.emit(loanCreated);
     return loanCreated;
 };
 
-entity.getLoan = function (command, state, context) {
-    return {};
+entity.getLoan = function (getLoanDetails, state, context) {
+    const existing = state.loans.find( loan => {
+        console.log("found the loan");
+        return loan.loanId === getLoanDetails.loanId
+    });
+    return existing;
 }
 
 // Behavior

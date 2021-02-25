@@ -30,6 +30,7 @@ message CreateLoanDetails {
 
 message LoanCreated {
     string loan_id = 1;
+    Loan loan = 2;
 }
 
 message GetLoanDetails {
