@@ -36,6 +36,9 @@ COPY --from=builder --chown=node \
   /home/node/user-function.desc \
   ./
 
+# Copy the loan directory
+COPY --from=builder --chown=node /home/node/loan loan/
+
 # Run the app as an unprivileged user for extra security.
 USER node
 

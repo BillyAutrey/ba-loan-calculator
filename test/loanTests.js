@@ -8,15 +8,15 @@ describe('loan command handler receiving a createLoan', () => {
     const command = {
       user_id: 'testuser',
       loan: {
-        loan_id: 'loan1',
+        loanId: 'loan1',
         principal: 200000,
         rate: .03,
         months: 3600,
-        monthly_addl: 0
+        monthlyAddl: 0
       }
     };
     const result = loanEntity.createLoan(command,{},{});
-    expect(result).to.eql({ loan_id: 'loan1' })
+    expect(result.loanId).to.eql("loan1");
   });
 });
 

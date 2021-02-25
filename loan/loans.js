@@ -14,17 +14,22 @@ const LoanCreated = entity.lookupType(package + "LoanCreated");
 entity.setInitial((userid) => LoanState.create({ loans: []}));
 
 // command handlers
-entity.createLoan = function (loandetails, state, context) {
-    const loan = loandetails.loan;
+entity.createLoan = function (createLoanDetails, state, context) {
+    console.log(createLoanDetails); // Note, this will reveal that the details come in as loanId and monthlyAddl
+    const loan = createLoanDetails.loan;
     const addedLoan = Loan.create( {
-        loan_id: loan.loan_id,
+        loanId: loan.loanId, // loan.loan_id does NOT work here.
         principal: loan.principal,
         rate: loan.rate,
         months: loan.months,
-        monthly_addl: loan.monthly_addl
+        monthlyAddl: loan.monthlyAddl
     });
+    const loanCreated = LoanCreated.create( {
+        loanId: loan.loanId
+    });
+    console.log(loanCreated);
     //ctx.emit(addedLoan);
-    return { loan_id: addedLoan.loan_id };
+    return loanCreated;
 };
 
 entity.getLoan = function (command, state, context) {
